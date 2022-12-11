@@ -1,15 +1,9 @@
-const Router = require('koa-router')
-const router = new Router()
+const articles = require('./articles')
+const user = require('./user')
+const upload = require('./upload')
 
-// test
-router.get('/', async (ctx, next) => {
-  ctx.body = 'Hello World!'
-  // next()
-})
-
-// 文章列表
-router.get('/articles', async (ctx, next) => {
-  ctx.body = 'articles'
-})
-
-module.exports = router
+module.exports = {
+  articles,
+  user,
+  upload
+}
