@@ -1,6 +1,6 @@
 const { getPassword } = require('../service/user')
 const { SuccessModel, ErrorModel } = require('../model/ResponseModel')
-const { IsAdminError } = require('../model/ErrorInfo')
+const { IsAdminError } = require('../model/ErrorModel')
 // const doCrypto = require('../utils/cryp')
 
 async function isAdmin (userPwd) {

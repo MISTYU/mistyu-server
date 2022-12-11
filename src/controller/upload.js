@@ -1,5 +1,5 @@
 const { ErrorModel, SuccessModel } = require('../model/ResponseModel')
-const { uploadSizeError } = require('../model/ErrorInfo')
+const { uploadSizeError } = require('../model/ErrorModel')
 const fsExtra = require('fs-extra')
 const path = require('path')
 

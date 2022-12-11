@@ -1,5 +1,5 @@
 const { ErrorModel } = require('../model/ResponseModel')
-const { ArticleParamsError } = require('../model/ErrorInfo')
+const { ArticleParamsError } = require('../model/ErrorModel')
 
 function genValidator (validate) {
   async function validator (ctx, next) {

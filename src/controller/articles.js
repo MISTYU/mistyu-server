@@ -1,5 +1,5 @@
 const { createArticleS, getArticleInfoS } = require('../service/articles')
-const { IsHasArticleError, CreateArticleError } = require('../model/ErrorInfo')
+const { IsHasArticleError, CreateArticleError } = require('../model/ErrorModel')
 const { SuccessModel, ErrorModel } = require('../model/ResponseModel')
 // 文章是否存在
 async function isHasArticle () {
