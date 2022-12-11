@@ -4,7 +4,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const static = require('koa-static')
-const router = require('./src/routes')
+const { user, upload, articles} = require('./src/routes')
 
 const app = new Koa()
 
@@ -28,8 +28,9 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 
-app.use(router.routes())
-app.use(router.allowedMethods())
+app.use(articles.routes(), articles.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
+app.use(upload.routes(), upload.allowedMethods())
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 })
