@@ -1,5 +1,5 @@
 const Router = require('koa-router')
-const { createArticleC } = require('../controller/articles')
+const { createArticleC, getArticlesC } = require('../controller/articles')
 const { genValidator } = require('../middleawres/validator')
 const { articleValidate } = require('../validator/article')
 
@@ -17,7 +17,8 @@ router.get('/', async (ctx, next) => {
 
 // 文章列表
 router.get('/articles', async (ctx, next) => {
-  ctx.body = 'articles'
+  const Articles = await getArticlesC(ctx.query)
+  ctx.body = Articles
 })
 // 文章详情
 router.get('/article/:id', async (ctx, next) => {

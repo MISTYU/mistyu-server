@@ -18,5 +18,9 @@ module.exports = {
   uploadSizeError: {
     code: 10005,
     message: '上传文件应该小于1MB'
+  },
+  queryArticlesError: {
+    code: 10006,
+    message: '查询文章列表错误'
   }
 }

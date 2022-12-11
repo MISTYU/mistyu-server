@@ -1,8 +1,19 @@
 const { Article, Detail } = require('../db/model/articles')
 const { formatArticle } = require('../utils/format')
 // 查询文章列表
-async function getArticles (keyword) {
-
+async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 0, order = 'createdAt' }) {
+  const whereOpt = {
+    limit: Number(pageSize),
+    offset: Number(pageIndex),
+    order: [order]
+  }
+  const ArticleList = await Article.findAndCountAll(whereOpt)
+  const total = ArticleList.count
+  return {
+    list: formatArticle(ArticleList.rows.map(article => article.dataValues)),
+    total,
+    hasMore: total > pageSize * (pageIndex + 1)
+  }
 }
 
 // 获取文章信息
@@ -29,21 +40,47 @@ async function createArticleS({ title, desc, tag, content, likes = 0 }) {
     likes
   })
   const articleId = articleInfo.dataValues.id
-  await updateArticleContent({ articleId, content })
+  await createArticleContent({ articleId, content })
   // 不需要返回文章内容
   return formatArticle(articleInfo.dataValues)
 }
 
-// 创建/更新文章内容
-async function updateArticleContent({ articleId, content }) {
-  const res = await Detail.create({
-    content: content,
+// 创建文章内容
+async function createArticleContent({ articleId, content }) {
+  const createRes = await Detail.create({
+    content,
     articleId
   })
-  return res
+  return true
+}
+
+// 更新文章内容
+async function updateArticleContentS ({ articleId, content }) {
+  const updateRes = await Detail.update({
+    content
+  }, {
+    where: {
+      articleId
+    }
+  })
+
+  return updateRes[0] > 0
+}
+
+// 删除文章
+async function deleteArticleS ({ id }) {
+  const deleteRes = await Article.destroy({
+    where: {
+      id
+    }
+  })
+  return deleteRes > 0
 }
 
 module.exports = {
+  getArticlesS,
   getArticleInfoS,
-  createArticleS
+  createArticleS,
+  updateArticleContentS,
+  deleteArticleS
 }
