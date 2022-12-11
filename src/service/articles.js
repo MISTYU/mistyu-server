@@ -1,4 +1,5 @@
 const { Article, Detail } = require('../db/model/articles')
+const { formatArticle } = require('../utils/format')
 // 查询文章列表
 async function getArticles (keyword) {
 
@@ -30,7 +31,7 @@ async function createArticleS({ title, desc, tag, content, likes = 0 }) {
   const articleId = articleInfo.dataValues.id
   await updateArticleContent({ articleId, content })
   // 不需要返回文章内容
-  return articleInfo.dataValues
+  return formatArticle(articleInfo.dataValues)
 }
 
 // 创建/更新文章内容
