@@ -46,14 +46,27 @@ async function createArticleS({ title, desc, tag, content, likes = 0 }) {
 }
 
 // 创建文章内容
-async function createArticleContent({ articleId, content }) {
+async function createArticleContent ({ articleId, content }) {
   const createRes = await Detail.create({
     content,
     articleId
   })
   return true
 }
-
+// 获取文章详情
+async function getArticleContent ({ id }) {
+  // 查询条件
+  const whereOpt = {
+    articleId: id
+  }
+  const result = await Detail.findOne({
+    where: whereOpt
+  })
+  if (result === null) {
+    return result
+  }
+  return formatArticle(result.dataValues)
+}
 // 更新文章内容
 async function updateArticleContentS ({ articleId, content }) {
   const updateRes = await Detail.update({
@@ -82,5 +95,6 @@ module.exports = {
   getArticleInfoS,
   createArticleS,
   updateArticleContentS,
-  deleteArticleS
+  deleteArticleS,
+  getArticleContent
 }

@@ -1,4 +1,4 @@
-const { createArticleS, getArticleInfoS, getArticlesS } = require('../service/articles')
+const { createArticleS, getArticleInfoS, getArticlesS, getArticleContent } = require('../service/articles')
 const { IsHasArticleError, CreateArticleError, queryArticlesError } = require('../model/ErrorModel')
 const { SuccessModel, ErrorModel } = require('../model/ResponseModel')
 // 文章是否存在
@@ -35,11 +35,22 @@ async function getArticlesC (query) {
     console.error(err.message, err.stack)
     return new ErrorModel(queryArticlesError)
   }
-  
+}
+// 获取文章详情
+async function getArticleContentC (params) {
+  try {
+    const content = await getArticleContent(params)
+    return new SuccessModel(content)
+  } catch (error) {
+    console.error(err.message, err.stack)
+    return new ErrorModel(queryArticlesError)
+  }
+
 }
 
 module.exports = {
   isHasArticle,
   createArticleC,
-  getArticlesC
+  getArticlesC,
+  getArticleContentC
 }
