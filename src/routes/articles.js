@@ -4,6 +4,7 @@ const { genValidator } = require('../middleawres/validator')
 const { articleValidate } = require('../validator/article')
 
 const router = new Router()
+router.prefix('/api/articles')
 
 // test
 router.get('/', async (ctx, next) => {
