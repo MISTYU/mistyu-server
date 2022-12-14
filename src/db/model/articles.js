@@ -1,4 +1,3 @@
-const { DataTypes } = require('sequelize')
 const seq = require('../seq')
 const { STRING, TEXT, INTEGER } = require('../types')
 

@@ -109,3 +109,6 @@ src/config
 
 # public
 public
+
+# macOS
+.DS_Store

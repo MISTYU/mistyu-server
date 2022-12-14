@@ -1,8 +1,14 @@
 const { Sequelize } = require('sequelize')
+const {
+  HOST,
+  DB_NAME,
+  MYSQL_PASSWORD,
+  ADMIN_NAME
+} = require('../config/user')
 
-const seq = new Sequelize('mistyu'/* 数据库 */, 'root'/* 用户名 */, 'root'/* 密码 */, {
-  host: '118.190.216.132',
-  dialect: 'mysql',
+const seq = new Sequelize(DB_NAME/* 数据库 */, ADMIN_NAME/* 用户名 */, MYSQL_PASSWORD/* 密码 */, {
+  host: HOST,
+  dialect: 'mysql', 
   pool: {
     max: 5, // 连接池中最大的链接数量
     min: 0,
