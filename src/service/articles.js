@@ -1,11 +1,11 @@
 const { Article, Detail } = require('../db/model/articles')
 const { formatArticle } = require('../utils/format')
 // 查询文章列表
-async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 0, order = 'createdAt' }) {
+async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 0, order = ['updatedAd'] }) {
   const whereOpt = {
     limit: Number(pageSize),
     offset: Number(pageIndex),
-    order: [order]
+    order: [...order]
   }
   const ArticleList = await Article.findAndCountAll(whereOpt)
   const total = ArticleList.count
