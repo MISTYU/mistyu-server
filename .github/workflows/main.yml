@@ -5,17 +5,14 @@ on:
       - 'v*'
 
 jobs:
-  build-and-deploy
-    runs-on: CentOS 7.9
+  build-and-deploy: 
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@master
 
     - name: Build
       uses: actions/setup-node@master
-    - run: npm install pnpm -g
-    - run: pnpm i
-    - run: pnpm build
     - run: tar -zcvf release.tgz app.js src package.json pnpm-lock.yaml pm2.conf.json
 
     - name: Create Release
