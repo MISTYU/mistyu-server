@@ -1,0 +1,55 @@
+name: Publish And Deploy
+on: 
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-and-deploy
+    runs-on: CentOS 7.9
+    steps:
+    - name: Checkout
+      uses: actions/checkout@master
+
+    - name: Build
+      uses: actions/setup-node@master
+    - run: npm install pnpm -g
+    - run: pnpm i
+    - run: pnpm build
+    - run: tar -zcvf release.tgz app.js src package.json pnpm-lock.yaml pm2.conf.json
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.Token }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload Release Asset
+      id: upload-release-asset
+      uses: action/upload-release-asset@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release .outputs.upload_url }}
+        asset_path: ./release.tgz
+        asste_name: release.tgz
+        asset_content_type: application/x-tgz
+
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.PORT }}
+        script: |
+          cd /root/mistyu/server
+          wget https://github.com/MISTYU/mistyu-server/releases/latest/download/release.tgz -O release.tgz
+          tar zxvf release.tgz
+          pnpm install
+          pm2 reload pm2.config.json
