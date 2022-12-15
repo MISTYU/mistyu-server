@@ -49,4 +49,4 @@ jobs:
           wget https://github.com/MISTYU/mistyu-server/releases/latest/download/release.tgz -O release.tgz
           tar zxvf release.tgz
           pnpm install
-          pm2 restart app.js --instances=2
+          pnpm reprd

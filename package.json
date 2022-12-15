@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon app.js",
     "sync": "node ./src/db/sync.js",
-    "prd": "pm2 start pm2.conf.json"
+    "prd": "pm2 start app.js --instances=2 --name=mistyu-server",
+    "reprd": "pm2 restart app.js --instances=2 --name=mistyu-server"
   },
   "keywords": [],
   "author": "",
