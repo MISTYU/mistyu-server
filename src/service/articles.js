@@ -1,10 +1,10 @@
 const { Article, Detail } = require('../db/model/articles')
 const { formatArticle } = require('../utils/format')
 // 查询文章列表
-async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 0, order = [['updatedAt', 'DESC']] }) {
+async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 1, order = [['updatedAt', 'DESC']] }) {
   const whereOpt = {
     limit: Number(pageSize),
-    offset: Number(pageIndex * pageSize),
+    offset: Number((pageIndex - 1) * pageSize),
     order: [...order]
   }
   const ArticleList = await Article.findAndCountAll(whereOpt)
@@ -12,7 +12,9 @@ async function getArticlesS ({ keyword = '', pageSize = 10, pageIndex = 0, order
   return {
     list: formatArticle(ArticleList.rows.map(article => article.dataValues)),
     total,
-    hasMore: total > pageSize * (pageIndex + 1)
+    hasMore: total > pageSize * (pageIndex),
+    pageSize,
+    pageIndex
   }
 }
 
